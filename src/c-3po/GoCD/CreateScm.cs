@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using RestSharp;
 
 namespace c_3po
@@ -34,6 +30,24 @@ namespace c_3po
                 plugin_metadata = new PluginMetaDataPost()
                 {
                     id = "GitPathMaterial",
+                    version = "1"
+                },
+                configuration = configuration
+            }, authenticator);
+        }
+
+        public Scm CreateGitFeatureBranchScm(string name, string repositoryUrl, string branch = "master")
+        {
+            var configuration = new List<Configuration>();
+            configuration.Add(new Configuration() { key = "url", value = repositoryUrl.ToLower() });
+            configuration.Add(new Configuration() { key = "defaultBranch", value = branch.ToLower() });
+
+            return CreateScm(new CreateScmPost()
+            {
+                Name = name.ToLower(),
+                plugin_metadata = new PluginMetaDataPost()
+                {
+                    id = "git.fb",
                     version = "1"
                 },
                 configuration = configuration

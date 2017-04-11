@@ -5,6 +5,8 @@ namespace c_3po
     public class EldersCI
     {
         const string MonoRepo = "mono-repo";
+        const string Repo = "repo";
+        const string Deploy = "deploy";
 
         readonly GocdClient gocd;
         readonly App app;
@@ -25,12 +27,14 @@ namespace c_3po
                 {
                     gocd.CreateBuildMonoRepoPipeline(cfg);
                 }
-
-
-                //if (cfg.Environment.Equals("build", System.StringComparison.OrdinalIgnoreCase))
-                //    gocd.CreateBuildPipeline(cfg);
-                //else
-                //    gocd.CreateDeployPipeline(cfg);
+                else if (cfg.GetC3poType().Equals(Repo, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    gocd.CreateBuildAllPipeline(cfg);
+                }
+                else if (cfg.GetC3poType().Equals(Deploy, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    gocd.CreateDeployPipeline(cfg);
+                }
             }
         }
 

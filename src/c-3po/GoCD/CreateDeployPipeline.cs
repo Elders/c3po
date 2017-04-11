@@ -27,7 +27,7 @@ namespace c_3po
                         }
                     },
                     parameters = new List<Parameter>() {
-                        new Parameter() { name = "client_id", value = config.GetClientId() },
+                        new Parameter() { name = "tenant", value = config.GetClientId() },
                         new Parameter() { name = "cfg_nuget", value = config.GetCfgNugetName() },
                         new Parameter() { name = "app_nuget", value = config.GetAppNugetName() },
                         new Parameter() { name = "app_name", value = config.AppName },

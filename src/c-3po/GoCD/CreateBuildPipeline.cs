@@ -54,7 +54,41 @@ namespace c_3po
                         new Material() {
                             type = "plugin",
                             attributes = new PackageMaterialAttributes() {
-                                Ref = scm.Id
+                                Ref = scm.Id,
+                                Destination = config.AppName
+                            }
+                        }
+                    },
+                    parameters = new List<Parameter>() {
+                        new Parameter() { name = "nuget_api_key", value = config.GetNugetApiKey() },
+                        new Parameter() { name = "app_name", value = config.AppName },
+                    }
+                }
+            };
+
+            return CreatePipeline(createPipeline);
+        }
+
+        public IRestResponse CreateBuildAllPipeline(C3poConfig config)
+        {
+            Scm scm = GetScm(config.AppName);
+            if (ReferenceEquals(null, scm))
+                scm = CreateGitFeatureBranchScm(config.AppName, config.GetGitRemote());
+
+            var createPipeline = new CreatePipelinePost()
+            {
+                Group = config.GetPipelineGroup(),
+                Pipeline = new Pipeline()
+                {
+                    name = config.GetPipelineName(),
+                    template = config.GetPipelineTemplate(),
+                    materials = new List<Material>()
+                    {
+                        new Material() {
+                            type = "plugin",
+                            attributes = new PackageMaterialAttributes() {
+                                Ref = scm.Id,
+                                Destination = config.AppName
                             }
                         }
                     },

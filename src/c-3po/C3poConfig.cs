@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Elders.Pandora.Box;
 
 namespace thegit
 {
     public class C3poConfig
     {
-        const string ClientIdKey = "client_id";
+        const string ClientIdKey = "tenant";
         const string PipelineNameKey = "pipeline_name";
         const string PipelineNamePrefixKey = "pipeline_name_prefix";
         const string PipelineNameSufixKey = "pipeline_name_sufix";
@@ -58,7 +59,7 @@ namespace thegit
 
         public string GetPipelineName()
         {
-            return $"{GetSetting(PipelineNamePrefixKey)}_{GetSetting(PipelineNameKey)}_{Branch.ToLower()}_{GetSetting(PipelineNameSufixKey)}".Trim('_');
+            return $"{GetSetting(PipelineNamePrefixKey)}_{GetSetting(PipelineNameKey)}_{GetSetting(PipelineNameSufixKey)}".Trim('_');
         }
 
         public string GetPipelineTemplate() { return GetSetting(PipelineTemplateKey); }
@@ -72,7 +73,21 @@ namespace thegit
         string GetSetting(string key)
         {
             string theKey = NameBuilder.GetSettingName(AppName, Environment, Machine.NotSpecified, key.ToLower()).ToLower();
-            return (string)configuration[theKey];
+            string theValue = (string)configuration[theKey];
+
+            string parameterPattern = @"\${(.*?)}";
+            var regex = new Regex(parameterPattern, RegexOptions.IgnoreCase);
+            Match match = regex.Match(theValue);
+            if (match.Success)
+            {
+                string wrappedKey = match.Value;
+                string internalKey = match.Groups[1].Value;
+                string internalValue = GetSetting(internalKey);
+                string evaluated = theValue.Replace(wrappedKey, internalValue);
+                return evaluated;
+            }
+
+            return theValue;
         }
     }
 }

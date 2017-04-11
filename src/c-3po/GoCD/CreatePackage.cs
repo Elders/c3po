@@ -24,12 +24,13 @@ namespace c_3po
             if (ReferenceEquals(null, repo)) throw new ArgumentException($"Invalid repository {repositoryName}", nameof(repositoryName));
 
             var packageConfig = new List<Configuration>();
-            packageConfig.Add(new Configuration() { key = "PACKAGE_ID", value = package.ToLower() });
+            packageConfig.Add(new Configuration() { key = "PACKAGE_EXTID", value = package.ToLower() });
+            packageConfig.Add(new Configuration() { key = "PACKAGE_ID", value = gocdName });
             packageConfig.Add(new Configuration() { key = "INCLUDE_PRE_RELEASE", value = includePrerelease ? "yes" : "no" });
-            if (string.IsNullOrEmpty(pollVersionFrom) == false)
-                packageConfig.Add(new Configuration() { key = "POLL_VERSION_FROM", value = pollVersionFrom });
-            if (string.IsNullOrEmpty(pollVersionTo) == false)
-                packageConfig.Add(new Configuration() { key = "POLL_VERSION_TO", value = pollVersionTo });
+            //if (string.IsNullOrEmpty(pollVersionFrom) == false)
+            //    packageConfig.Add(new Configuration() { key = "POLL_VERSION_FROM", value = pollVersionFrom });
+            //if (string.IsNullOrEmpty(pollVersionTo) == false)
+            //    packageConfig.Add(new Configuration() { key = "POLL_VERSION_TO", value = pollVersionTo });
 
             return CreatePackage(new CreatePackagePost()
             {

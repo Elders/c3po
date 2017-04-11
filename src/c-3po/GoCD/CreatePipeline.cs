@@ -73,6 +73,7 @@ namespace c_3po
         public class PackageMaterialAttributes : IMaterialAttributes
         {
             public string Ref { get; set; }
+            public string Destination { get; set; }
         }
 
         public class Parameter
