@@ -28,7 +28,7 @@ namespace c_3po
                     },
                     parameters = new List<Parameter>() {
                         new Parameter() { name = "nuget_api_key", value = config.GetNugetApiKey() },
-                        new Parameter() { name = "app_name", value = config.AppName },
+                        new Parameter() { name = "host_name", value = config.HostName },
                     }
                 }
             };
@@ -38,9 +38,9 @@ namespace c_3po
 
         public IRestResponse CreateBuildMonoRepoPipeline(C3poConfig config)
         {
-            Scm scm = GetScm(config.AppName);
+            Scm scm = GetScm(config.HostName);
             if (ReferenceEquals(null, scm))
-                scm = CreateGitPathScm(config.AppName, config.GetGitRemote(), config.AppName);
+                scm = CreateGitPathScm(config.HostName, config.GetGitRemote(), config.GetApplication());
 
             var createPipeline = new CreatePipelinePost()
             {
@@ -55,13 +55,13 @@ namespace c_3po
                             type = "plugin",
                             attributes = new PackageMaterialAttributes() {
                                 Ref = scm.Id,
-                                Destination = config.AppName
+                                Destination = "local"
                             }
                         }
                     },
                     parameters = new List<Parameter>() {
                         new Parameter() { name = "nuget_api_key", value = config.GetNugetApiKey() },
-                        new Parameter() { name = "app_name", value = config.AppName },
+                        new Parameter() { name = "host_name", value = config.HostName },
                     }
                 }
             };
@@ -71,9 +71,9 @@ namespace c_3po
 
         public IRestResponse CreateBuildAllPipeline(C3poConfig config)
         {
-            Scm scm = GetScm(config.AppName);
+            Scm scm = GetScm(config.HostName);
             if (ReferenceEquals(null, scm))
-                scm = CreateGitFeatureBranchScm(config.AppName, config.GetGitRemote());
+                scm = CreateGitFeatureBranchScm(config.HostName, config.GetGitRemote());
 
             var createPipeline = new CreatePipelinePost()
             {
@@ -88,13 +88,13 @@ namespace c_3po
                             type = "plugin",
                             attributes = new PackageMaterialAttributes() {
                                 Ref = scm.Id,
-                                Destination = config.AppName
+                                Destination = "local"
                             }
                         }
                     },
                     parameters = new List<Parameter>() {
                         new Parameter() { name = "nuget_api_key", value = config.GetNugetApiKey() },
-                        new Parameter() { name = "app_name", value = config.AppName },
+                        new Parameter() { name = "host_name", value = config.HostName },
                     }
                 }
             };

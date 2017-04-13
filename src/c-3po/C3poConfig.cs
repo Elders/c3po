@@ -7,6 +7,7 @@ namespace thegit
     public class C3poConfig
     {
         const string ClientIdKey = "tenant";
+        const string ApplicationKey = "application";
         const string PipelineNameKey = "pipeline_name";
         const string PipelineNamePrefixKey = "pipeline_name_prefix";
         const string PipelineNameSufixKey = "pipeline_name_sufix";
@@ -15,11 +16,11 @@ namespace thegit
         const string CfgNugetRepoKey = "cfg_nuget_repo";
         const string CfgNugetKey = "cfg_nuget";
         const string CfgNugetIncludePrereleaseKey = "cfg_nuget_prerelease";
-        const string AppNugetRepoKey = "app_nuget_repo";
-        const string AppNugetKey = "app_nuget";
-        const string AppNugetIncludePrereleaseKey = "app_nuget_prerelease";
-        const string AppTypeKey = "app_type";
-        const string AppDeploymentParKey = "app_dpl_par";
+        const string AppNugetRepoKey = "host_nuget_repo";
+        const string AppNugetKey = "host_nuget";
+        const string AppNugetIncludePrereleaseKey = "host_nuget_prerelease";
+        const string AppTypeKey = "host_type";
+        const string AppDeploymentParKey = "host_dpl_par";
         const string NugetApiKeyKey = "nuget_api_key";
         const string C3poTypeKey = "c3po_type";
         const string GitBranchKey = "git_branch";
@@ -33,6 +34,8 @@ namespace thegit
             this.configuration = configuration;
         }
 
+        public string GetApplication() { return GetSetting(ApplicationKey); }
+
         public string GetGitRemote() { return GetSetting(GitRemoteKey); }
 
         public string GetC3poType() { return GetSetting(C3poTypeKey); }
@@ -43,15 +46,15 @@ namespace thegit
 
         public string GetAppNugetRepo() { return GetSetting(AppNugetRepoKey); }
 
-        public string GetAppNugetName() { return GetSetting(AppNugetKey); }
+        public string GetHostNugetName() { return GetSetting(AppNugetKey); }
 
         public string GetClientId() { return GetSetting(ClientIdKey); }
 
-        public string GetAppType() { return GetSetting(AppTypeKey); }
+        public string GetHostType() { return GetSetting(AppTypeKey); }
 
         public string GetNugetApiKey() { return GetSetting(NugetApiKeyKey); }
 
-        public string GetAppDeplPar() { return GetSetting(AppDeploymentParKey); }
+        public string GetHostDeplPar() { return GetSetting(AppDeploymentParKey); }
 
         public bool IncludeAppPrereleases() { return "yes".Equals(GetSetting(AppNugetIncludePrereleaseKey), System.StringComparison.OrdinalIgnoreCase); }
 
@@ -68,11 +71,12 @@ namespace thegit
 
         public string Branch { get { return GetSetting(GitBranchKey); } }
         public string Environment { get; set; }
-        public string AppName { get; set; }
+        public string HostName { get; set; }
+        public string SoftwareName { get; set; }
 
         string GetSetting(string key)
         {
-            string theKey = NameBuilder.GetSettingName(AppName, Environment, Machine.NotSpecified, key.ToLower()).ToLower();
+            string theKey = NameBuilder.GetSettingName(HostName, Environment, Machine.NotSpecified, key.ToLower()).ToLower();
             string theValue = (string)configuration[theKey];
 
             string parameterPattern = @"\${(.*?)}";

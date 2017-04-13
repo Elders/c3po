@@ -30,10 +30,10 @@ namespace c_3po.cli
             if (appName.Equals("mono-repo", StringComparison.OrdinalIgnoreCase))
             {
                 string workingDir = repositoryPath ?? ".";
-                var applications = Directory.GetDirectories(workingDir).Where(dir => dir.EndsWith(".git") == false).Select(x => new DirectoryInfo(x));
-                foreach (var application in applications)
+                var bcs = Directory.GetDirectories(workingDir).Where(dir => dir.EndsWith(".git") == false).Select(x => new DirectoryInfo(x));
+                foreach (var bc in bcs)
                 {
-                    var appSettings = new App.Settings(application.Name, workingDir);
+                    var appSettings = new App.Settings(bc.Name, workingDir);
                     var app = new App(appSettings);
                     var elders = new EldersCI(gocd, app);
                     elders.Magic();

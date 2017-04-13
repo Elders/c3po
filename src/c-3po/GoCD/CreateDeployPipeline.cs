@@ -23,16 +23,17 @@ namespace c_3po
                         },
                         new Material() {
                             type = "package",
-                            attributes = new PackageMaterialAttributes() { Ref = FindOrCreatePackage(config.GetAppNugetName(), config.GetAppNugetRepo(), config.IncludeAppPrereleases(), config).Id }
+                            attributes = new PackageMaterialAttributes() { Ref = FindOrCreatePackage(config.GetHostNugetName(), config.GetAppNugetRepo(), config.IncludeAppPrereleases(), config).Id }
                         }
                     },
                     parameters = new List<Parameter>() {
                         new Parameter() { name = "tenant", value = config.GetClientId() },
+                        new Parameter() { name = "application", value = config.GetApplication() },
                         new Parameter() { name = "cfg_nuget", value = config.GetCfgNugetName() },
-                        new Parameter() { name = "app_nuget", value = config.GetAppNugetName() },
-                        new Parameter() { name = "app_name", value = config.AppName },
-                        new Parameter() { name = "app_type", value = config.GetAppType() },
-                        new Parameter() { name = "app_dpl_par", value = config.GetAppDeplPar() }
+                        new Parameter() { name = "host_nuget", value = config.GetHostNugetName() },
+                        new Parameter() { name = "host_name", value = config.HostName },
+                        new Parameter() { name = "host_type", value = config.GetHostType() },
+                        new Parameter() { name = "host_dpl_par", value = config.GetHostDeplPar() }
                     }
                 }
             };
