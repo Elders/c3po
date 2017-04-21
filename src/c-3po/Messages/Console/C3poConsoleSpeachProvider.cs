@@ -91,15 +91,6 @@ namespace c_3po.Messages.Console
             System.Console.WriteLine("     (O O) _/           ");
             System.Console.WriteLine("     _\\=/_");
             System.Console.WriteLine("    /  _  \\  ");
-            System.Console.WriteLine("   //|/.\\|\\");
-            System.Console.WriteLine("  ||  \\_/  || ");
-            System.Console.WriteLine("  || |\\ /| || ");
-            System.Console.WriteLine("   # \\_ _/ # ");
-            System.Console.WriteLine("     | | |   ");
-            System.Console.WriteLine("     | | |    ");
-            System.Console.WriteLine("     []|[]     ");
-            System.Console.WriteLine("     | | |    ");
-            System.Console.WriteLine("    /_]_[_\\_    ");
             System.Console.WriteLine("===============================");
             System.Console.WriteLine();
         }
