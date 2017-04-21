@@ -61,7 +61,7 @@ namespace c_3po
                     },
                     parameters = new List<Parameter>() {
                         new Parameter() { name = "nuget_api_key", value = config.GetNugetApiKey() },
-                        new Parameter() { name = "host_name", value = config.HostName },
+                        new Parameter() { name = "application", value = config.GetApplication() },
                     }
                 }
             };

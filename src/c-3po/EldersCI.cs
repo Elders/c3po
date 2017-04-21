@@ -1,4 +1,7 @@
-﻿using thegit;
+﻿using c_3po.Messages;
+using RestSharp;
+using System.Collections.Generic;
+using thegit;
 
 namespace c_3po
 {
@@ -11,7 +14,9 @@ namespace c_3po
         readonly GocdClient gocd;
         readonly App app;
 
-        public EldersCI(GocdClient gocd, App app)
+        private C3poSpeachProgram c3poSpeakProgram = new C3poSpeachProgram();
+
+        public EldersCI(GocdClient gocd, App app )
         {
             this.app = app;
             this.gocd = gocd;
@@ -19,23 +24,45 @@ namespace c_3po
 
         public void Magic()
         {
+            //c3po.Says.StartedExtractingConfigurations();
+
             var cfgs = app.GetC3poConfigurations();
+
+            //c3po.Says.FinishedExtractingConfigurations(((ICollection<C3poConfig>)cfgs).Count);
+
+            c3poSpeakProgram.StartedCreating();
 
             foreach (var cfg in cfgs)
             {
+                IRestResponse r2d2Response;
+
                 if (cfg.GetC3poType().Equals(MonoRepo, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    gocd.CreateBuildMonoRepoPipeline(cfg);
+                    c3poSpeakProgram.CreatingMonoRepoPipeline(cfg.GetApplication(), cfg.GetPipelineName());
+                    r2d2Response = gocd.CreateBuildMonoRepoPipeline(cfg);
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode,cfg.GetApplication());
                 }
                 else if (cfg.GetC3poType().Equals(Repo, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    gocd.CreateBuildAllPipeline(cfg);
+                    c3poSpeakProgram.CreatingRepoPipeline(cfg.GetApplication(), cfg.GetPipelineName());
+                    r2d2Response = gocd.CreateBuildAllPipeline(cfg);
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetApplication());
                 }
                 else if (cfg.GetC3poType().Equals(Deploy, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    gocd.CreateDeployPipeline(cfg);
+                    c3poSpeakProgram.CreatingDeployPipeline(cfg.GetApplication(), cfg.GetPipelineName());
+                    r2d2Response = gocd.CreateDeployPipeline(cfg);
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetApplication());
                 }
             }
+
+            c3poSpeakProgram.GoodByeMaster();
+        }
+
+        public void Addc3poVoiceInterface(C3poVoiceInterface whatInterface)
+        {
+            c3poSpeakProgram.AddVoiceInterface(whatInterface);
+            c3poSpeakProgram.HelloMaster();
         }
 
         //public void Cleanup(string branch)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using c_3po.Messages;
+using c_3po.Messages.Console;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,7 +24,6 @@ namespace c_3po.cli
 
             var gocdOptions = new GocdClient.Options(server);
 
-
             var auth = new Authenticator(Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
             var gocd = new GocdClient(gocdOptions, auth);
             #endregion
@@ -36,6 +37,7 @@ namespace c_3po.cli
                     var appSettings = new App.Settings(bc.Name, workingDir);
                     var app = new App(appSettings);
                     var elders = new EldersCI(gocd, app);
+                    elders.Addc3poVoiceInterface(C3poVoiceInterface.Console);
                     elders.Magic();
                 }
             }
@@ -44,6 +46,7 @@ namespace c_3po.cli
                 var appSettings = new App.Settings(appName, repositoryPath);
                 var app = new App(appSettings);
                 var elders = new EldersCI(gocd, app);
+                elders.Addc3poVoiceInterface(C3poVoiceInterface.Console);
                 elders.Magic();
             }
         }

@@ -80,13 +80,20 @@
     <Compile Include="Infrastructure\RestClientExtensions.cs" />
     <Compile Include="Infrastructure\SerializerFactory.cs" />
     <Compile Include="GoCD\GocdClient.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GoCD\ResponseResult.cs" />
     <Compile Include="GoCD\RestClient.cs" />
+    <Compile Include="Messages\C3poLanguagesDictionary.cs" />
+    <Compile Include="Messages\Console\C3poConsoleSpeachProvider.cs" />
+    <Compile Include="Messages\IC3poSpeachProvider.cs" />
+    <Compile Include="Messages\C3poTalk.cs" />
+    <Compile Include="Messages\Log\C3poLogSpeachProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
