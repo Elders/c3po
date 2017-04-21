@@ -17,6 +17,6 @@ namespace c_3po.Messages
         void CreatingMonoRepoPipeline(string applicationName, string pipelineName);
         void CreatingRepoPipeline(string applicationName, string pipelineName);
         void CreatingDeployPipeline(string applicationName, string pipelineName);
-        void R2d2Responded(HttpStatusCode r2d2response, string applicationName);
+        void R2d2Responded(HttpStatusCode r2d2response, string applicationName,string errorMessage);
     }
 }

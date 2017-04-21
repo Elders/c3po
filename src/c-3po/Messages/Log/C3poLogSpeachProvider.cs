@@ -44,6 +44,11 @@ namespace c_3po.Messages.Log
             throw new NotImplementedException();
         }
 
+        public void R2d2Responded(HttpStatusCode r2d2response, string applicationName, string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public void StartedCreating()
         {
             throw new NotImplementedException();

@@ -64,11 +64,11 @@ namespace c_3po.Messages
             }
         }
 
-        public void R2d2Responded(HttpStatusCode r2d2response, string applicationName)
+        public void R2d2Responded(HttpStatusCode r2d2response, string applicationName,string errorMessage)
         {
             foreach (var language in languages)
             {
-                language.Says.R2d2Responded(r2d2response, applicationName);
+                language.Says.R2d2Responded(r2d2response, applicationName, errorMessage);
             }
         }
 

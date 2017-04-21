@@ -57,7 +57,7 @@ namespace c_3po.Messages.Console
             System.Console.WriteLine("-- Started extacting configurations.");
         }
 
-        public void R2d2Responded(HttpStatusCode r2d2response,string applicationName)
+        public void R2d2Responded(HttpStatusCode r2d2response,string applicationName, string errorMessage)
         {
             switch (r2d2response)
             {
@@ -65,15 +65,17 @@ namespace c_3po.Messages.Console
                 case HttpStatusCode.Created:
                 case HttpStatusCode.Accepted:
                     SetColor(ConsoleColor.DarkGreen);
-                    System.Console.WriteLine($"-Excuse me sir, but that R2-D2 is in prime condition, a real bargain. He created pipe for \"{applicationName}\".");
+                    System.Console.WriteLine($"-- Excuse me sir, but that R2-D2 is in prime condition, a real bargain. He created pipe for \"{applicationName}\".");
                     break;
                 case HttpStatusCode.NotFound:
                     SetColor(ConsoleColor.DarkRed);
-                    System.Console.WriteLine($"-R2-D2, where are you?");
+                    System.Console.WriteLine($"-- R2-D2, where are you?");
                     break;
                 default:
                     SetColor(ConsoleColor.DarkRed);
-                    System.Console.WriteLine($"-We're doomed! R2d2 cannot create pipiline for {applicationName}.");
+                    System.Console.WriteLine($"-- We're doomed! R2d2 cannot create pipiline for {applicationName}.");
+                    System.Console.WriteLine("     R2-D2 says: ");
+                    System.Console.WriteLine($"    {errorMessage}");
                     break;
             }
         }

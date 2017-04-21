@@ -25,7 +25,6 @@ namespace c_3po
         public void Magic()
         {
             //c3po.Says.StartedExtractingConfigurations();
-
             var cfgs = app.GetC3poConfigurations();
 
             //c3po.Says.FinishedExtractingConfigurations(((ICollection<C3poConfig>)cfgs).Count);
@@ -40,19 +39,19 @@ namespace c_3po
                 {
                     c3poSpeakProgram.CreatingMonoRepoPipeline(cfg.GetApplication(), cfg.GetPipelineName());
                     r2d2Response = gocd.CreateBuildMonoRepoPipeline(cfg);
-                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode,cfg.GetApplication());
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode,cfg.GetApplication(), r2d2Response.ErrorMessage);
                 }
                 else if (cfg.GetC3poType().Equals(Repo, System.StringComparison.OrdinalIgnoreCase))
                 {
                     c3poSpeakProgram.CreatingRepoPipeline(cfg.GetApplication(), cfg.GetPipelineName());
                     r2d2Response = gocd.CreateBuildAllPipeline(cfg);
-                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetApplication());
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetApplication(), r2d2Response.ErrorMessage);
                 }
                 else if (cfg.GetC3poType().Equals(Deploy, System.StringComparison.OrdinalIgnoreCase))
                 {
                     c3poSpeakProgram.CreatingDeployPipeline(cfg.GetApplication(), cfg.GetPipelineName());
                     r2d2Response = gocd.CreateDeployPipeline(cfg);
-                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetApplication());
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetApplication(), r2d2Response.ErrorMessage);
                 }
             }
 
