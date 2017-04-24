@@ -48,7 +48,7 @@ namespace c_3po.Messages.Console
         public void StartedCreating()
         {
             SetColor(ConsoleColor.DarkYellow);
-            System.Console.WriteLine($"-- I start messaging to r2d2 to start creating...");
+            System.Console.WriteLine($"-- I start sending messages to r2d2 to start creating...");
         }
 
         public void StartedExtractingConfigurations()

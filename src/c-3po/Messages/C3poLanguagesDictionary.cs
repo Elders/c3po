@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace c_3po.Messages
 {
-    class C3poSpeachProgram : IC3poSpeachProvider
+    class C3poSpeachProgram : ILanguageDictionary
     {
         IList<C3poTalk> languages = new List<C3poTalk>();
 

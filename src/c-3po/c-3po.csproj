@@ -66,11 +66,18 @@
     <Compile Include="GoCD\Authenticator.cs" />
     <Compile Include="C3poConfig.cs" />
     <Compile Include="GoCD\CreateDeployPipeline.cs" />
+    <Compile Include="GoCD\Environments\AddPipelineToEnvironment.cs" />
+    <Compile Include="GoCD\Environments\Commands\CreateEnvironmentPost.cs" />
+    <Compile Include="GoCD\Environments\Commands\UpdateEnvironmentPost.cs" />
+    <Compile Include="GoCD\Environments\Http\CreateEnvironment.cs" />
+    <Compile Include="GoCD\Environments\CreateEnvironmentIfDoesntExists.cs" />
     <Compile Include="GoCD\CreatePackage.cs" />
     <Compile Include="GoCD\CreateScm.cs" />
     <Compile Include="GoCD\DeletePipeline.cs" />
+    <Compile Include="GoCD\Environments\Http\UpdateEnviroment.cs" />
     <Compile Include="GoCD\FindPackage.cs" />
     <Compile Include="GoCD\FindRepository.cs" />
+    <Compile Include="GoCD\Environments\Http\GetEnvironments.cs" />
     <Compile Include="GoCD\GetRepositories.cs" />
     <Compile Include="GoCD\CreatePipeline.cs" />
     <Compile Include="EldersCI.cs" />
@@ -86,7 +93,8 @@
     <Compile Include="Messages\Console\C3poConsoleSpeachProvider.cs" />
     <Compile Include="Messages\IC3poSpeachProvider.cs" />
     <Compile Include="Messages\C3poTalk.cs" />
-    <Compile Include="Messages\Log\C3poLogSpeachProvider.cs" />
+    <Compile Include="Messages\ILanguageDictionary.cs" />
+    <Compile Include="Messages\LibLog\C3poLibLogSpeachProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

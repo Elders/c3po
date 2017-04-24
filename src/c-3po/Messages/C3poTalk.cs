@@ -1,4 +1,5 @@
 ﻿using c_3po.Messages.Console;
+using c_3po.Messages.LibLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace c_3po.Messages
             {
                 case C3poVoiceInterface.Console:
                     return new C3poConsoleSpeachProvider();
+                case C3poVoiceInterface.LibLog:
+                    return new C3poLibLogSpeachProvider();
                 default:
                     return null;
             }
@@ -33,6 +36,7 @@ namespace c_3po.Messages
     public enum C3poVoiceInterface
     {
         Silent,
-        Console
+        Console,
+        LibLog
     }
 }
