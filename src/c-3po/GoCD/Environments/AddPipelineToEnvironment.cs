@@ -11,14 +11,13 @@ namespace c_3po
     {
         public IRestResponse AddPipelineToEnvironment(string environment,string pipeline, Authenticator authenticator = null)
         {
-            var enviroments = GetEnviroments();
-            var currentEnvironment = enviroments._embedded.environments.FirstOrDefault(x => x.name == environment);
+            var currentEnviroment = GetEnvironment(environment);
 
             return UpdateEnviroment(new UpdateEnvironmentPut()
             {   
-                name = environment,
-                pipelines = new List<PipelineUpdate> { new PipelineUpdate() { name = pipeline } }
-            }, enviroments.ETag);
+                Name = environment,
+                Pipelines = new List<PipelineUpdate> { new PipelineUpdate() { Name = pipeline } }
+            }, currentEnviroment.ETag);
         }
         
     }

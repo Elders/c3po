@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace c_3po.Messages.Console
 {
@@ -21,7 +17,7 @@ namespace c_3po.Messages.Console
             DrawC3po("Fairwell, Master!");
         }
 
-        public void CreatingDeployPipeline(string applicationName,string pipelineName)
+        public void CreatingDeployPipeline(string applicationName, string pipelineName)
         {
             SetColor(ConsoleColor.DarkYellow);
             System.Console.WriteLine($"     ...Deploy pipeline '{pipelineName}' for application '{applicationName}'");
@@ -57,7 +53,7 @@ namespace c_3po.Messages.Console
             System.Console.WriteLine("-- Started extacting configurations.");
         }
 
-        public void R2d2Responded(HttpStatusCode r2d2response,string applicationName, string errorMessage)
+        public void R2d2Responded(HttpStatusCode r2d2response, string itemValue, string applicationName, string errorMessage)
         {
             switch (r2d2response)
             {
@@ -70,6 +66,10 @@ namespace c_3po.Messages.Console
                 case HttpStatusCode.NotFound:
                     SetColor(ConsoleColor.DarkRed);
                     System.Console.WriteLine($"-- R2-D2, where are you?");
+                    break;
+                case (HttpStatusCode)422:
+                    SetColor(ConsoleColor.Yellow);
+                    System.Console.WriteLine($"An item \"{itemValue}\" for appliciation {applicationName} already exists.");
                     break;
                 default:
                     SetColor(ConsoleColor.DarkRed);

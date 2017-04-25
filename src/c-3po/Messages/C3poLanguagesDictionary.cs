@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace c_3po.Messages
 {
@@ -64,11 +60,11 @@ namespace c_3po.Messages
             }
         }
 
-        public void R2d2Responded(HttpStatusCode r2d2response, string applicationName,string errorMessage)
+        public void R2d2Responded(HttpStatusCode r2d2response, string itemName, string applicationName, string errorMessage)
         {
             foreach (var language in languages)
             {
-                language.Says.R2d2Responded(r2d2response, applicationName, errorMessage);
+                language.Says.R2d2Responded(r2d2response, itemName, applicationName, errorMessage);
             }
         }
 

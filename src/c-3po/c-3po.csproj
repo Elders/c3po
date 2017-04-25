@@ -74,6 +74,7 @@
     <Compile Include="GoCD\CreatePackage.cs" />
     <Compile Include="GoCD\CreateScm.cs" />
     <Compile Include="GoCD\DeletePipeline.cs" />
+    <Compile Include="GoCD\Environments\Http\GetEnviroment.cs" />
     <Compile Include="GoCD\Environments\Http\UpdateEnviroment.cs" />
     <Compile Include="GoCD\FindPackage.cs" />
     <Compile Include="GoCD\FindRepository.cs" />

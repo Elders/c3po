@@ -11,7 +11,7 @@ namespace c_3po
     {
         public IRestResponse UpdateEnviroment(UpdateEnvironmentPut updateEnvironment,string etag, Authenticator authenticator = null)
         {
-            string resource = $"admin/environments/{updateEnvironment.name}";
+            string resource = $"admin/environments/{updateEnvironment.Name}";
 
             var request = CreateRestRequest(resource, Method.PUT, authenticator);
             request.AddHeader("Accept", "application/vnd.go.cd.v2+json");

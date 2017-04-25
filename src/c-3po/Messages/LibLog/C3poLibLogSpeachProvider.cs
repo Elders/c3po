@@ -43,17 +43,20 @@ namespace c_3po.Messages.LibLog
             Logger.Info("Hello! It is I, C-3PO!");
         }
 
-        public void R2d2Responded(HttpStatusCode r2d2response, string applicationName, string errorMessage)
+        public void R2d2Responded(HttpStatusCode r2d2response,string itemValue, string applicationName, string errorMessage)
         {
             switch (r2d2response)
             {
                 case HttpStatusCode.OK:
                 case HttpStatusCode.Created:
                 case HttpStatusCode.Accepted:
-                    Logger.Info($"Excuse me sir, but that R2-D2 is in prime condition, a real bargain. He created pipe for \"{applicationName}\".");
+                    Logger.Info($"Excuse me sir, but that R2-D2 is in prime condition, a real bargain. He created \"{itemValue}\" for appliciation \"{applicationName}\".");
                     break;
                 case HttpStatusCode.NotFound:
                     Logger.Error($"R2-D2, where are you?");
+                    break;
+                case (HttpStatusCode)422:
+                    Logger.Warn($"An item \"{itemValue}\" for appliciation {applicationName} already exists.");
                     break;
                 default:
                     Logger.Error($"We're doomed! R2d2 cannot create pipiline for {applicationName}.");

@@ -9,13 +9,13 @@ namespace c_3po
 {
     public class UpdateEnvironmentPut
     {
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public IEnumerable<PipelineUpdate> pipelines { get; set; }
+        public IEnumerable<PipelineUpdate> Pipelines { get; set; }
     }
 
     public class PipelineUpdate
     {
-        public string name { get; set; }
+        public string Name { get; set; }
     }
 }

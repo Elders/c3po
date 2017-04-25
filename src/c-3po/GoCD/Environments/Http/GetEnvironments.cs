@@ -16,7 +16,9 @@ namespace c_3po
             var request = CreateRestRequest(resource, Method.GET, authenticator);
             request.AddHeader("Accept", "application/vnd.go.cd.v2+json");
             var response = CreateRestClient().Execute<EnviromentsResult>(request);
-            response.Data.ETag = response.Headers.FirstOrDefault(x => x.Name == "ETag").Value.ToString();
+            var etag = response.Headers.FirstOrDefault(x => x.Name == "ETag")?.Value;
+
+            response.Data.ETag = ReferenceEquals(null, etag) ? null : etag.ToString();
             if ((ReferenceEquals(response, null) == true) || (ReferenceEquals(response.Data, null) == true))
                 return new EnviromentsResult();
 
