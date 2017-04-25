@@ -1,15 +1,12 @@
 ﻿using RestSharp;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace c_3po
 {
     public partial class GocdClient
     {
-        public EnviromentResult GetEnvironment(string environmentName,Authenticator authenticator = null)
+        public EnviromentResult GetEnvironment(string environmentName, Authenticator authenticator = null)
         {
             string resource = $"admin/environments/{environmentName}";
 
@@ -17,7 +14,8 @@ namespace c_3po
             request.AddHeader("Accept", "application/vnd.go.cd.v2+json");
             var response = CreateRestClient().Execute<EnviromentResult>(request);
 
-            response.Data.ETag = response.Headers.FirstOrDefault(x => x.Name == "ETag").Value.ToString();
+            var etag = response.Headers.FirstOrDefault(x => x.Name == "ETag")?.Value;
+            response.Data.ETag = ReferenceEquals(null, etag) ? null : etag.ToString();
 
             if ((ReferenceEquals(response, null) == true) || (ReferenceEquals(response.Data, null) == true))
                 return new EnviromentResult();
@@ -29,7 +27,7 @@ namespace c_3po
         {
             public string name { get; set; }
 
-            public IEnumerable<Pipeline> pipelines { get; set; }
+            public IList<PipelineUpdate> pipelines { get; set; }
 
             public IEnumerable<AgentPost> agents { get; set; }
 

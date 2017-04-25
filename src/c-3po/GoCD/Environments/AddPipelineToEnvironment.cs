@@ -1,24 +1,19 @@
 ﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace c_3po
 {
     public partial class GocdClient
     {
-        public IRestResponse AddPipelineToEnvironment(string environment,string pipeline, Authenticator authenticator = null)
+        public IRestResponse AddPipelineToEnvironment(string environment, string pipeline, Authenticator authenticator = null)
         {
             var currentEnviroment = GetEnvironment(environment);
-
+            currentEnviroment.pipelines.Add(new PipelineUpdate() { Name = pipeline });
             return UpdateEnviroment(new UpdateEnvironmentPut()
-            {   
+            {
                 Name = environment,
-                Pipelines = new List<PipelineUpdate> { new PipelineUpdate() { Name = pipeline } }
+                Pipelines = currentEnviroment.pipelines
             }, currentEnviroment.ETag);
         }
-        
+
     }
 }
