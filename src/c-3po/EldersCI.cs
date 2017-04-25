@@ -64,7 +64,7 @@ namespace c_3po
                 if (!ReferenceEquals(null, r2d2Response))
                     c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.ErrorMessage);
 
-                r2d2Response = gocd.AddPipelineToEnvironment("Gosho", cfg.GetPipelineName());
+                r2d2Response = gocd.AddPipelineToEnvironment(cfg.Environment, cfg.GetPipelineName());
                 c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.ErrorMessage);
             }
 
