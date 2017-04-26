@@ -11,7 +11,8 @@ namespace c_3po
             return UpdateEnviroment(new UpdateEnvironmentPut()
             {
                 Name = environment,
-                Pipelines = currentEnviroment.pipelines
+                Pipelines = currentEnviroment.pipelines,
+                Agents = currentEnviroment.agents
             }, currentEnviroment.ETag);
         }
 

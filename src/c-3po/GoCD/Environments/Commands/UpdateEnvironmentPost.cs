@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static c_3po.GocdClient;
+﻿using System.Collections.Generic;
 
 namespace c_3po
 {
@@ -12,6 +7,8 @@ namespace c_3po
         public string Name { get; set; }
 
         public IEnumerable<PipelineUpdate> Pipelines { get; set; }
+
+        public IEnumerable<AgentPost> Agents { get; set; }
     }
 
     public class PipelineUpdate

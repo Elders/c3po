@@ -27,16 +27,21 @@ namespace c_3po.cli
             var gocd = new GocdClient(gocdOptions, auth);
             #endregion
 
+            var elders = new EldersCI(gocd);
+            elders.Addc3poVoiceInterface(C3poVoiceInterface.Console);
+
             if (appName.Equals("mono-repo", StringComparison.OrdinalIgnoreCase))
             {
                 string workingDir = repositoryPath ?? ".";
                 var bcs = Directory.GetDirectories(workingDir).Where(dir => dir.EndsWith(".git") == false).Select(x => new DirectoryInfo(x));
+
+
+
                 foreach (var bc in bcs)
                 {
                     var appSettings = new App.Settings(bc.Name, workingDir);
                     var app = new App(appSettings);
-                    var elders = new EldersCI(gocd, app);
-                    elders.Addc3poVoiceInterface(C3poVoiceInterface.Console);
+                    elders.SetApp(app);
                     elders.Magic();
                 }
             }
@@ -44,10 +49,11 @@ namespace c_3po.cli
             {
                 var appSettings = new App.Settings(appName, repositoryPath);
                 var app = new App(appSettings);
-                var elders = new EldersCI(gocd, app);
-                elders.Addc3poVoiceInterface(C3poVoiceInterface.Console);
+                elders.SetApp(app);
                 elders.Magic();
             }
+
+            elders.Dispose();
         }
     }
 }

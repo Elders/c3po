@@ -38,23 +38,25 @@ namespace c_3po.Messages.Console
         public void FinishedExtractingConfigurations(long extractedCfgs)
         {
             SetColor(ConsoleColor.DarkYellow);
-            System.Console.WriteLine($"-- I extracted {extractedCfgs} configurations.");
+            System.Console.WriteLine($"I extracted {extractedCfgs} configurations.");
         }
 
         public void StartedCreating()
         {
             SetColor(ConsoleColor.DarkYellow);
-            System.Console.WriteLine($"-- I start sending messages to r2d2 to start creating...");
+            System.Console.WriteLine($"I start sending messages to r2d2 to start creating...");
         }
 
         public void StartedExtractingConfigurations()
         {
             SetColor(ConsoleColor.DarkYellow);
-            System.Console.WriteLine("-- Started extacting configurations.");
+            System.Console.WriteLine("Started extacting configurations.");
         }
 
         public void R2d2Responded(HttpStatusCode r2d2response, string itemValue, string applicationName, string errorMessage)
         {
+            System.Console.WriteLine();
+
             switch (r2d2response)
             {
                 case HttpStatusCode.OK:
@@ -69,15 +71,17 @@ namespace c_3po.Messages.Console
                     break;
                 case (HttpStatusCode)422:
                     SetColor(ConsoleColor.Yellow);
-                    System.Console.WriteLine($"An item \"{itemValue}\" for appliciation {applicationName} already exists.");
+                    System.Console.WriteLine($"-- An item \"{itemValue}\" for appliciation \"{applicationName}\" already exists. R2-D2 says: ");
+                    System.Console.WriteLine($"   {errorMessage}");
                     break;
                 default:
                     SetColor(ConsoleColor.DarkRed);
-                    System.Console.WriteLine($"-- We're doomed! R2d2 cannot create pipiline for {applicationName}.");
-                    System.Console.WriteLine("     R2-D2 says: ");
-                    System.Console.WriteLine($"    {errorMessage}");
+                    System.Console.WriteLine($"-- We're doomed! R2d2 cannot create pipiline for {applicationName}. R2-D2 says: ");
+                    System.Console.WriteLine($"   {errorMessage}");
                     break;
             }
+
+            System.Console.WriteLine();
         }
 
         private void SetColor(ConsoleColor color)

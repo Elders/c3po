@@ -6,6 +6,8 @@ namespace c_3po.Messages
     class C3poSpeachProgram : ILanguageDictionary
     {
         IList<C3poTalk> languages = new List<C3poTalk>();
+        bool hasStarted = false;
+        bool isFirstStart = true;
 
         public void AddVoiceInterface(C3poVoiceInterface voiceInterface)
         {
@@ -46,18 +48,28 @@ namespace c_3po.Messages
 
         public void GoodByeMaster()
         {
+            if (!isFirstStart)
+                return;
+
             foreach (var language in languages)
             {
                 language.Says.GoodByeMaster();
             }
+
+            isFirstStart = false;
         }
 
         public void HelloMaster()
         {
+            if (hasStarted)
+                return;
+
             foreach (var language in languages)
             {
                 language.Says.HelloMaster();
             }
+
+            hasStarted = true;
         }
 
         public void R2d2Responded(HttpStatusCode r2d2response, string itemName, string applicationName, string errorMessage)

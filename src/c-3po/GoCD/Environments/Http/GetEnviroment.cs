@@ -29,7 +29,7 @@ namespace c_3po
 
             public IList<PipelineUpdate> pipelines { get; set; }
 
-            public IEnumerable<AgentPost> agents { get; set; }
+            public IList<AgentPost> agents { get; set; }
 
             public IEnumerable<EnviromentVariablePost> environment_variables { get; set; }
 

@@ -1,19 +1,28 @@
 ﻿using c_3po.Messages;
 using RestSharp;
+using System;
 using thegit;
 
 namespace c_3po
 {
-    public class EldersCI
+    public class EldersCI : IDisposable
     {
         const string MonoRepo = "mono-repo";
         const string Repo = "repo";
         const string Deploy = "deploy";
 
         readonly GocdClient gocd;
-        readonly App app;
+        App app;
 
         private C3poSpeachProgram c3poSpeakProgram = new C3poSpeachProgram();
+
+        public EldersCI(GocdClient gocd)
+        {
+            this.gocd = gocd;
+
+            c3poSpeakProgram.AddVoiceInterface(C3poVoiceInterface.LibLog);
+
+        }
 
         public EldersCI(GocdClient gocd, App app)
         {
@@ -38,11 +47,11 @@ namespace c_3po
             {
                 IRestResponse r2d2Response = null;
 
-                var enviromentResponse = gocd.CreateEnvironmentIfDoesntExists("Gosho");
+                var enviromentResponse = gocd.CreateEnvironmentIfDoesntExists(cfg.Environment);
 
                 if (!ReferenceEquals(null, enviromentResponse))
                 {
-                    c3poSpeakProgram.R2d2Responded(enviromentResponse.StatusCode, cfg.Environment, cfg.GetApplication(), enviromentResponse.ErrorMessage);
+                    c3poSpeakProgram.R2d2Responded(enviromentResponse.StatusCode, cfg.Environment, cfg.GetApplication(), enviromentResponse.Content);
                 }
 
                 if (cfg.GetC3poType().Equals(MonoRepo, System.StringComparison.OrdinalIgnoreCase))
@@ -62,18 +71,29 @@ namespace c_3po
                 }
 
                 if (!ReferenceEquals(null, r2d2Response))
-                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.ErrorMessage);
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.Content);
 
                 r2d2Response = gocd.AddPipelineToEnvironment(cfg.Environment, cfg.GetPipelineName());
-                c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.ErrorMessage);
+                //c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.ErrorMessage);
             }
 
-            c3poSpeakProgram.GoodByeMaster();
+
         }
 
         public void Addc3poVoiceInterface(C3poVoiceInterface whatInterface)
         {
             c3poSpeakProgram.AddVoiceInterface(whatInterface);
+        }
+
+        public void SetApp(App app)
+        {
+            this.app = app;
+        }
+
+        public void Dispose()
+        {
+            app = null;
+            c3poSpeakProgram.GoodByeMaster();
         }
 
         //public void Cleanup(string branch)
