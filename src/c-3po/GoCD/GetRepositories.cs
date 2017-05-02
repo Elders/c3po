@@ -9,7 +9,7 @@ namespace c_3po
         {
             const string resource = "admin/scms/";
 
-            var request = CreateRestRequest(resource + name, Method.GET, authenticator);
+            var request = CreateRestRequest(resource + name.ToLower(), Method.GET, authenticator);
             request.AddHeader("Accept", "application/vnd.go.cd.v1+json");
 
             var response = CreateRestClient().Get<Scm>(request);
