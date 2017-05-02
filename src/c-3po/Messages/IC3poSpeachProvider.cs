@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace c_3po.Messages
 {
@@ -18,5 +13,6 @@ namespace c_3po.Messages
         void CreatingRepoPipeline(string applicationName, string pipelineName);
         void CreatingDeployPipeline(string applicationName, string pipelineName);
         void R2d2Responded(HttpStatusCode r2d2response, string itemValue, string applicationName, string errorMessage);
+        void ThereIsError(string message);
     }
 }

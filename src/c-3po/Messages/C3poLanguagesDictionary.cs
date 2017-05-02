@@ -95,5 +95,13 @@ namespace c_3po.Messages
                 language.Says.StartedExtractingConfigurations();
             }
         }
+
+        public void ThereIsError(string message)
+        {
+            foreach (var language in languages)
+            {
+                language.Says.ThereIsError(message);
+            }
+        }
     }
 }

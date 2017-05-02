@@ -36,10 +36,7 @@ namespace c_3po
         {
             c3poSpeakProgram.HelloMaster();
 
-            //c3po.Says.StartedExtractingConfigurations();
             var cfgs = app.GetC3poConfigurations();
-
-            //c3po.Says.FinishedExtractingConfigurations(((ICollection<C3poConfig>)cfgs).Count);
 
             c3poSpeakProgram.StartedCreating();
 
@@ -47,11 +44,19 @@ namespace c_3po
             {
                 IRestResponse r2d2Response = null;
 
+                if (!cfg.IsValid())
+                {
+                    c3poSpeakProgram.ThereIsError($"There are some missing keys from the configuration of {cfg.SoftwareName}");
+                    continue;
+                }
+
+
+
                 var enviromentResponse = gocd.CreateEnvironmentIfDoesntExists(cfg.Environment);
 
                 if (!ReferenceEquals(null, enviromentResponse))
                 {
-                    c3poSpeakProgram.R2d2Responded(enviromentResponse.StatusCode, cfg.Environment, cfg.GetApplication(), enviromentResponse.Content);
+                    c3poSpeakProgram.R2d2Responded(enviromentResponse.StatusCode, cfg.Environment, cfg.GetApplication(), SimpleJson.DeserializeObject<dynamic>(r2d2Response.Content).Message);
                 }
 
                 if (cfg.GetC3poType().Equals(MonoRepo, System.StringComparison.OrdinalIgnoreCase))
@@ -71,10 +76,9 @@ namespace c_3po
                 }
 
                 if (!ReferenceEquals(null, r2d2Response))
-                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.Content);
+                    c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), SimpleJson.DeserializeObject<dynamic>(r2d2Response.Content).message);
 
                 r2d2Response = gocd.AddPipelineToEnvironment(cfg.Environment, cfg.GetPipelineName());
-                //c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), r2d2Response.ErrorMessage);
             }
 
 

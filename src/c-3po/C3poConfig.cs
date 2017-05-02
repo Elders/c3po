@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Elders.Pandora.Box;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
-using Elders.Pandora.Box;
 
 namespace thegit
 {
@@ -25,7 +26,6 @@ namespace thegit
         const string C3poTypeKey = "c3po_type";
         const string GitBranchKey = "git_branch";
         const string GitRemoteKey = "git_remote";
-
 
         readonly IDictionary<string, object> configuration;
 
@@ -92,6 +92,37 @@ namespace thegit
             }
 
             return theValue;
+        }
+    }
+
+    public static class C3poConfigExtension
+    {
+        public static bool IsValid(this C3poConfig cfg)
+        {
+            var requiredSettingsKeysPropNames = new string[]
+            {
+                "ClientIdKey",
+                "ApplicationKey",
+                "GitRemoteKey",
+                "GitBranchKey",
+                "PipelineNameKey",
+                "PipelineGroupKey",
+                "PipelineTemplateKey",
+                "NugetApiKeyKey",
+                "C3poTypeKey"
+            };
+
+            foreach (var keyPropName in requiredSettingsKeysPropNames)
+            {
+                var keyPropValue = cfg.GetType().GetField(keyPropName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetRawConstantValue();
+                var cfgValue = cfg.GetType().GetMethod("GetSetting", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(cfg, new[] { keyPropValue });
+
+                if (string.IsNullOrEmpty((string)cfgValue))
+                    return false;
+            }
+
+
+            return true;
         }
     }
 }
