@@ -38,10 +38,6 @@ namespace c_3po
 
         public IRestResponse CreateBuildMonoRepoPipeline(C3poConfig config)
         {
-            Scm scm = GetScm(config.HostName);
-            if (ReferenceEquals(null, scm))
-                scm = CreateGitPathScm(config.HostName, config.GetGitRemote(), config.GetApplication());
-
             var createPipeline = new CreatePipelinePost()
             {
                 Group = config.GetPipelineGroup(),
@@ -52,10 +48,14 @@ namespace c_3po
                     materials = new List<Material>()
                     {
                         new Material() {
-                            type = "plugin",
-                            attributes = new PackageMaterialAttributes() {
-                                Ref = scm.Id,
-                                Destination = "local"
+                            type = "git",
+                            attributes = new GitMaterialAttributes() {
+                                    url = config.GetGitRemote(),
+                                    branch = config.Branch,
+                                    name = "git",
+                                    destination = "local",
+                                    filter = $@"{{ ""ignore"": [""{config.GetApplication()}""] }}",
+                                    invertFilter = "true"
                             }
                         }
                     },

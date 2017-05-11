@@ -14,7 +14,7 @@ namespace c_3po
 
             request.AddNewtonsoftJsonBody(createPipeline);
             var response = CreateRestClient().Post(request);
-            
+
 
 
             return response;
@@ -71,6 +71,7 @@ namespace c_3po
             public bool auto_update { get; set; }
             public string branch { get; set; }
             public string submodule_folder { get; set; }
+            public string invertFilter { get; set; }
         }
 
         public class PackageMaterialAttributes : IMaterialAttributes
