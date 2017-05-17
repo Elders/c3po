@@ -66,7 +66,7 @@ namespace c_3po
 
             public string url { get; set; }
             public string destination { get; set; }
-            public string filter { get; set; }
+            public Filter filter { get; set; }
             public string name { get; set; }
             public bool auto_update { get; set; }
             public string branch { get; set; }

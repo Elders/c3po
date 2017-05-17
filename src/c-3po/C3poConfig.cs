@@ -1,7 +1,7 @@
-﻿using Elders.Pandora.Box;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Elders.Pandora.Box;
 
 namespace thegit
 {
@@ -26,6 +26,8 @@ namespace thegit
         const string C3poTypeKey = "c3po_type";
         const string GitBranchKey = "git_branch";
         const string GitRemoteKey = "git_remote";
+        const string MaterialFilter = "material_filter";
+        const string MaterialFilterIsInverted = "material_filter_is_inverted";
 
         readonly IDictionary<string, object> configuration;
 
@@ -69,7 +71,12 @@ namespace thegit
 
         public string GetPipelineGroup() { return GetSetting(PipelineGroupKey); }
 
-        public string Branch { get { return GetSetting(GitBranchKey); } }
+        public string GetMaterialFilter() { return GetSetting(MaterialFilter); }
+
+        public string GetMaterialFilterIsReversed() { return GetSetting(MaterialFilterIsInverted); }
+
+        public string Branch
+        { get { return GetSetting(GitBranchKey); } }
         public string Environment { get; set; }
         public string HostName { get; set; }
         public string SoftwareName { get; set; }
@@ -77,6 +84,10 @@ namespace thegit
         string GetSetting(string key)
         {
             string theKey = NameBuilder.GetSettingName(HostName, Environment, Machine.NotSpecified, key.ToLower()).ToLower();
+
+            if (!configuration.ContainsKey(theKey))
+                throw new KeyNotFoundException($"The corresponding key is missing - {theKey}");
+
             string theValue = (string)configuration[theKey];
 
             string parameterPattern = @"\${(.*?)}";
