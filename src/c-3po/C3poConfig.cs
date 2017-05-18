@@ -123,17 +123,25 @@ namespace thegit
                 "C3poTypeKey"
             };
 
-            foreach (var keyPropName in requiredSettingsKeysPropNames)
+            try
             {
-                var keyPropValue = cfg.GetType().GetField(keyPropName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetRawConstantValue();
-                var cfgValue = cfg.GetType().GetMethod("GetSetting", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(cfg, new[] { keyPropValue });
+                foreach (var keyPropName in requiredSettingsKeysPropNames)
+                {
+                    var keyPropValue = cfg.GetType().GetField(keyPropName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetRawConstantValue();
+                    var cfgValue = cfg.GetType().GetMethod("GetSetting", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(cfg, new[] { keyPropValue });
 
-                if (string.IsNullOrEmpty((string)cfgValue))
-                    return false;
+                    if (string.IsNullOrEmpty((string)cfgValue))
+                        return false;
+                }
+
+
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                return false;
             }
 
-
-            return true;
         }
     }
 }

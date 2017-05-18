@@ -55,7 +55,7 @@ namespace c_3po
                                     name = "git",
                                     destination = "local",
                                     filter = new Filter(){ ignore = new List<string>{ config.GetMaterialFilter() } }, //$@"{{ ""ignore"": [""{config.GetMaterialFilter()}""] }}",
-                                    invertFilter = config.GetMaterialFilterIsReversed()
+                                    inverted_filter = config.GetMaterialFilterIsReversed()
                             }
                         }
                     },
