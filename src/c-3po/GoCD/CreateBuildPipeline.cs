@@ -54,8 +54,8 @@ namespace c_3po
                                     branch = config.Branch,
                                     name = "git",
                                     destination = "local",
-                                    filter = new Filter(){ ignore = new List<string>{ config.GetMaterialFilter() } }, //$@"{{ ""ignore"": [""{config.GetMaterialFilter()}""] }}",
-                                    inverted_filter = config.GetMaterialFilterIsReversed()
+                                    filter = new Filter(){ ignore = new List<string>{ $"{config.GetApplication()}/**/*" } },
+                                    inverted_filter = "true"
                             }
                         }
                     },
