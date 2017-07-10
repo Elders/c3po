@@ -1,9 +1,6 @@
 ﻿using RestSharp;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace c_3po
 {
@@ -12,7 +9,6 @@ namespace c_3po
         public EnviromentsResult GetEnviroments(Authenticator authenticator = null)
         {
             const string resource = "admin/environments";
-
             var request = CreateRestRequest(resource, Method.GET, authenticator);
             request.AddHeader("Accept", "application/vnd.go.cd.v2+json");
             var response = CreateRestClient().Execute<EnviromentsResult>(request);
@@ -20,7 +16,18 @@ namespace c_3po
 
             response.Data.ETag = ReferenceEquals(null, etag) ? null : etag.ToString();
             if ((ReferenceEquals(response, null) == true) || (ReferenceEquals(response.Data, null) == true))
-                return new EnviromentsResult();
+            {
+                var error = "Error occurred while retrieving envierments from GOCD.";
+                c3poSpeakProgram.ThereIsError(error);
+                throw new System.Exception(error);
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                var error = "Unauthorized exception while retrieving envierments from GOCD.";
+                c3poSpeakProgram.ThereIsError(error);
+                throw new System.Exception(error);
+            }
 
             return response.Data;
         }

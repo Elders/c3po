@@ -3,7 +3,7 @@ using System.Net;
 
 namespace c_3po.Messages
 {
-    class C3poSpeachProgram : ILanguageDictionary
+    public class C3poSpeachProgram : ILanguageDictionary
     {
         IList<C3poTalk> languages = new List<C3poTalk>();
         bool hasStarted = false;

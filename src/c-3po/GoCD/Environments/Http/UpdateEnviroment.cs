@@ -1,15 +1,10 @@
 ﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace c_3po
 {
     public partial class GocdClient
     {
-        public IRestResponse UpdateEnviroment(UpdateEnvironmentPut updateEnvironment,string etag, Authenticator authenticator = null)
+        public IRestResponse UpdateEnviroment(UpdateEnvironmentPut updateEnvironment, string etag, Authenticator authenticator = null)
         {
             string resource = $"admin/environments/{updateEnvironment.Name}";
 
@@ -19,6 +14,20 @@ namespace c_3po
 
             request.AddNewtonsoftJsonBody(updateEnvironment);
             var response = CreateRestClient().Put(request);
+
+            if ((ReferenceEquals(response, null) == true))
+            {
+                var error = $"Error occurred while updating envierment {updateEnvironment} in GOCD.";
+                c3poSpeakProgram.ThereIsError(error);
+                throw new System.Exception(error);
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                var error = $"Unauthorized exception while updating envierment {updateEnvironment} in GOCD.";
+                c3poSpeakProgram.ThereIsError(error);
+                throw new System.Exception(error);
+            }
 
             return response;
         }

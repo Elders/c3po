@@ -13,15 +13,13 @@ namespace c_3po
 
         readonly GocdClient gocd;
         App app;
+        C3poSpeachProgram c3poSpeakProgram;
 
-        private C3poSpeachProgram c3poSpeakProgram = new C3poSpeachProgram();
-
-        public EldersCI(GocdClient gocd)
+        public EldersCI(GocdClient gocd, C3poSpeachProgram c3poSpeakProgram)
         {
             this.gocd = gocd;
-
+            this.c3poSpeakProgram = c3poSpeakProgram;
             c3poSpeakProgram.AddVoiceInterface(C3poVoiceInterface.LibLog);
-
         }
 
         public EldersCI(GocdClient gocd, App app)
@@ -82,11 +80,6 @@ namespace c_3po
             }
 
 
-        }
-
-        public void Addc3poVoiceInterface(C3poVoiceInterface whatInterface)
-        {
-            c3poSpeakProgram.AddVoiceInterface(whatInterface);
         }
 
         public void SetApp(App app)

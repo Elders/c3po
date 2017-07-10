@@ -18,7 +18,18 @@ namespace c_3po
             response.Data.ETag = ReferenceEquals(null, etag) ? null : etag.ToString();
 
             if ((ReferenceEquals(response, null) == true) || (ReferenceEquals(response.Data, null) == true))
-                return new EnviromentResult();
+            {
+                var error = $"Error occurred while retrieving envierment {environmentName} from GOCD.";
+                c3poSpeakProgram.ThereIsError(error);
+                throw new System.Exception(error);
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                var error = $"Unauthorized exception while retrieving envierment {environmentName} from GOCD.";
+                c3poSpeakProgram.ThereIsError(error);
+                throw new System.Exception(error);
+            }
 
             return response.Data;
         }

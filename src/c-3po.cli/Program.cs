@@ -19,16 +19,17 @@ namespace c_3po.cli
             string appName = args[3];
             string repositoryPath = args[4];
 
+
+            C3poSpeachProgram c3poSpeakProgram = new C3poSpeachProgram();
+            c3poSpeakProgram.AddVoiceInterface(C3poVoiceInterface.Console);
+
             #region GOCD
-
             var gocdOptions = new GocdClient.Options(server);
-
             var auth = new Authenticator(Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}")));
-            var gocd = new GocdClient(gocdOptions, auth);
+            var gocd = new GocdClient(gocdOptions, c3poSpeakProgram, auth);
             #endregion
 
-            var elders = new EldersCI(gocd);
-            elders.Addc3poVoiceInterface(C3poVoiceInterface.Console);
+            var elders = new EldersCI(gocd, c3poSpeakProgram);
 
             if (appName.Equals("mono-repo", StringComparison.OrdinalIgnoreCase))
             {
