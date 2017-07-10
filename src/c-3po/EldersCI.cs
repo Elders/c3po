@@ -50,7 +50,7 @@ namespace c_3po
                 {
                     if (!ReferenceEquals(null, enviromentResponse))
                     {
-                        c3poSpeakProgram.R2d2Responded(enviromentResponse.StatusCode, cfg.Environment, cfg.GetApplication(), SimpleJson.DeserializeObject<dynamic>(r2d2Response.Content).Message);
+                        c3poSpeakProgram.R2d2Responded(enviromentResponse.StatusCode, cfg.Environment, cfg.GetApplication(), SimpleJson.DeserializeObject<dynamic>(enviromentResponse.Content).Message);
                     }
 
                     if (cfg.GetC3poType().Equals(MonoRepo, System.StringComparison.OrdinalIgnoreCase))

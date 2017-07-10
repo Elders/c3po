@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c-3po", "c-3po\c-3po.csproj", "{68012EE8-8DA8-4A1C-A388-0A05ED1ADC51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c-3po.cli", "c-3po.cli\c-3po.cli.csproj", "{88DEF507-921D-4F4D-9820-71C40D042EE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{B23A78B8-C1DD-4158-A4F7-0AE524578727}"
+	ProjectSection(SolutionItems) = preProject
+		c-3po.cli\c-3po.cli.rn.md = c-3po.cli\c-3po.cli.rn.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
