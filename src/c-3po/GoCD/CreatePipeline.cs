@@ -71,7 +71,7 @@ namespace c_3po
             public bool auto_update { get; set; }
             public string branch { get; set; }
             public string submodule_folder { get; set; }
-            public string inverted_filter { get; set; }
+            public bool invert_filter { get; set; }
         }
 
         public class PackageMaterialAttributes : IMaterialAttributes
