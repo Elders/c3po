@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Elders.Pandora.Box;
+using Newtonsoft.Json;
 
 namespace thegit
 {
@@ -25,6 +27,7 @@ namespace thegit
         const string NugetApiKeyKey = "nuget_api_key";
         const string C3poTypeKey = "c3po_type";
         const string GitBranchKey = "git_branch";
+        const string GitBranchesKey = "git_branches";
         const string GitRemoteKey = "git_remote";
 
         readonly IDictionary<string, object> configuration;
@@ -60,9 +63,10 @@ namespace thegit
 
         public bool IncludeCfgPrereleases() { return "yes".Equals(GetSetting(CfgNugetIncludePrereleaseKey), System.StringComparison.OrdinalIgnoreCase); }
 
-        public string GetPipelineName()
+        public string GetPipelineName(string branch = "")
         {
-            return $"{GetSetting(PipelineNamePrefixKey)}_{GetSetting(PipelineNameKey)}_{GetSetting(PipelineNameSufixKey)}".Trim('_');
+            string pipelineName = GetSetting(PipelineNameKey).Replace("@{branch}", branch);
+            return $"{GetSetting(PipelineNamePrefixKey)}_{pipelineName}_{GetSetting(PipelineNameSufixKey)}".Trim('_');
         }
 
         public string GetPipelineTemplate() { return GetSetting(PipelineTemplateKey); }
@@ -70,6 +74,17 @@ namespace thegit
         public string GetPipelineGroup() { return GetSetting(PipelineGroupKey); }
 
         public string Branch { get { return GetSetting(GitBranchKey); } }
+        public IEnumerable<string> Branches
+        {
+            get
+            {
+                var fullKey = GetFullKey(GitBranchesKey);
+                if (configuration.ContainsKey(fullKey) == false)
+                    return new List<string>() { GetSetting(GitBranchKey) };
+                else
+                    return GetSetting<List<string>>(GitBranchesKey);
+            }
+        }
         public string Environment { get; set; }
         public string HostName { get; set; }
         public string SoftwareName { get; set; }
@@ -96,6 +111,40 @@ namespace thegit
             }
 
             return theValue;
+        }
+
+        string GetFullKey(string key)
+        {
+            string theKey = NameBuilder.GetSettingName(HostName, Environment, Machine.NotSpecified, key.ToLower()).ToLower();
+            return theKey;
+        }
+
+        T GetSetting<T>(string key)
+        {
+            string fullKey = GetFullKey(key);
+
+            if (!configuration.ContainsKey(fullKey))
+                throw new KeyNotFoundException($"The corresponding key is missing - {fullKey}");
+
+            object theValue = configuration[fullKey];
+
+            if (typeof(T) == typeof(String))
+            {
+                string strValue = (string)theValue;
+                string parameterPattern = @"\${(.*?)}";
+                var regex = new Regex(parameterPattern, RegexOptions.IgnoreCase);
+                Match match = regex.Match(strValue);
+                if (match.Success)
+                {
+                    string wrappedKey = match.Value;
+                    string internalKey = match.Groups[1].Value;
+                    string internalValue = GetSetting(internalKey);
+                    string evaluated = strValue.Replace(wrappedKey, internalValue);
+                    return (T)(object)evaluated;
+                }
+            }
+
+            return JsonConvert.DeserializeObject<T>(theValue.ToString());
         }
     }
 

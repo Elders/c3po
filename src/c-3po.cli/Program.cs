@@ -36,8 +36,6 @@ namespace c_3po.cli
                 string workingDir = repositoryPath ?? ".";
                 var bcs = Directory.GetDirectories(workingDir).Where(dir => dir.EndsWith(".git") == false).Select(x => new DirectoryInfo(x));
 
-
-
                 foreach (var bc in bcs)
                 {
                     var appSettings = new App.Settings(bc.Name, workingDir);

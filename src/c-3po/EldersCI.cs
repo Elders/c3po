@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using c_3po.Messages;
 using RestSharp;
 using thegit;
@@ -40,7 +42,7 @@ namespace c_3po
 
             foreach (var cfg in cfgs)
             {
-                IRestResponse r2d2Response = null;
+                IEnumerable<IRestResponse> r2d2Responses = null;
 
                 var enviromentResponse = gocd.CreateEnvironmentIfDoesntExists(cfg.Environment);
 
@@ -54,23 +56,26 @@ namespace c_3po
                     if (cfg.GetC3poType().Equals(MonoRepo, System.StringComparison.OrdinalIgnoreCase))
                     {
                         c3poSpeakProgram.CreatingMonoRepoPipeline(cfg.GetApplication(), cfg.GetPipelineName());
-                        r2d2Response = gocd.CreateBuildMonoRepoPipeline(cfg);
+                        r2d2Responses = gocd.CreateBuildMonoRepoPipeline(cfg);
                     }
                     else if (cfg.GetC3poType().Equals(Repo, System.StringComparison.OrdinalIgnoreCase))
                     {
                         c3poSpeakProgram.CreatingRepoPipeline(cfg.GetApplication(), cfg.GetPipelineName());
-                        r2d2Response = gocd.CreateBuildAllPipeline(cfg);
+                        r2d2Responses = gocd.CreateBuildPipelines(cfg).ToList();
                     }
                     else if (cfg.GetC3poType().Equals(Deploy, System.StringComparison.OrdinalIgnoreCase))
                     {
                         c3poSpeakProgram.CreatingDeployPipeline(cfg.GetApplication(), cfg.GetPipelineName());
-                        r2d2Response = gocd.CreateDeployPipeline(cfg);
+                        r2d2Responses = gocd.CreateDeployPipeline(cfg);
                     }
 
-                    if (!ReferenceEquals(null, r2d2Response))
-                        c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), SimpleJson.DeserializeObject<dynamic>(r2d2Response.Content).message);
-
-                    r2d2Response = gocd.AddPipelineToEnvironment(cfg.Environment, cfg.GetPipelineName());
+                    if (ReferenceEquals(null, r2d2Responses) == false)
+                    {
+                        foreach (var r2d2Response in r2d2Responses)
+                        {
+                            c3poSpeakProgram.R2d2Responded(r2d2Response.StatusCode, cfg.GetPipelineName(), cfg.GetApplication(), SimpleJson.DeserializeObject<dynamic>(r2d2Response.Content).message);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {

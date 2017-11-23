@@ -1,10 +1,5 @@
 ﻿using c_3po.Messages.Console;
 using c_3po.Messages.LibLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace c_3po.Messages
 {

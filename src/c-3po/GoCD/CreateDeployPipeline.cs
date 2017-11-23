@@ -6,7 +6,7 @@ namespace c_3po
 {
     public partial class GocdClient
     {
-        public IRestResponse CreateDeployPipeline(C3poConfig config)
+        public IEnumerable<IRestResponse> CreateDeployPipeline(C3poConfig config)
         {
             var createPipeline = new CreatePipelinePost()
             {
@@ -38,7 +38,8 @@ namespace c_3po
                 }
             };
 
-            return CreatePipeline(createPipeline);
+            yield return CreatePipeline(createPipeline);
+            yield return AddPipelineToEnvironment(config.Environment, config.GetPipelineName());
         }
     }
 }
