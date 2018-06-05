@@ -45,6 +45,12 @@ namespace c_3po
         {
             public string Id { get; set; }
             public string Name { get; set; }
+            public string RepositoryName { get; set; }
+
+            public string GetFullyQualifiedGoCdName()
+            {
+                return $"{RepositoryName}:{Name}";
+            }
         }
 
         public class Embedded<T>

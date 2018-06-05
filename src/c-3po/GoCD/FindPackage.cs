@@ -12,6 +12,11 @@ namespace c_3po
                 .Where(x => x.name.Equals(repository, System.StringComparison.OrdinalIgnoreCase))
                 .SingleOrDefault()?._embedded?.packages
                 ?.Where(x => x.Name.Equals(name, System.StringComparison.OrdinalIgnoreCase))
+                ?.Select(x =>
+                {
+                    x.RepositoryName = repository;
+                    return x;
+                })
                 ?.SingleOrDefault();
         }
 
