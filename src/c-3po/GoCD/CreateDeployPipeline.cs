@@ -56,7 +56,7 @@ namespace c_3po
         public static string AsGoCdEnvironmentString(this string value)
         {
             var chars = value.Select(x => char.IsLetterOrDigit(x) || x == Separator ? x : Separator);
-            return string.Concat(chars);
+            return string.Concat(chars).ToUpper();
         }
     }
 }
