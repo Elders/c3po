@@ -10,7 +10,7 @@ namespace c_3po
             const string resource = "admin/pipelines";
 
             var request = CreateRestRequest(resource, Method.POST, authenticator);
-            request.AddHeader("Accept", "application/vnd.go.cd.v3+json");
+            request.AddHeader("Accept", "application/vnd.go.cd.v6+json");
 
             request.AddNewtonsoftJsonBody(createPipeline);
             var response = CreateRestClient().Post(request);
